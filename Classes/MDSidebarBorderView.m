@@ -78,29 +78,29 @@ NSComparisonResult compareFrameOriginX(id viewA, id viewB, void *context) {
 	BOOL showSidebarOnLeft = [[MDSettings defaultSettings] showSideViewOnLeft];
 	
     // Adjust frame
-    NSImage *image = [MDSidebarBorderView bundledImageWithName:@"DrawerBorder"];
+    //NSImage *image = [MDSidebarBorderView bundledImageWithName:@"DrawerBorder"];
     NSRect borderRect = NSZeroRect;
 	borderRect.origin.x = showSidebarOnLeft ? -1.0 : 1.0;
-    borderRect.size.height = [image size].height;
+    borderRect.size.height = 22;
     borderRect.size.width = [superview frame].size.width + 2;
 	
     // Add resizer image
-    NSRect handleRect = NSZeroRect;
-    NSImage *sidebarResizerImage = [MDSidebarBorderView bundledImageWithName:@"DrawerResizeHandle"];
-    handleRect.size = [sidebarResizerImage size];
-    handleRect.origin.y = 0;
-	if (showSidebarOnLeft) {
-		handleRect.origin.x = [self frame].size.width - handleRect.size.width;
-	} else {
-		handleRect.origin.x = 0;
-	}
-    NSImageView *imageView = [[MDResizer alloc] initWithFrame:handleRect];
-    [imageView setImage: sidebarResizerImage];
-    [imageView setAutoresizingMask:showSidebarOnLeft?NSViewMinXMargin:NSViewMaxXMargin];
-    [self addSubview:imageView];
-    [self setNeedsDisplay:YES];
-	
-    [self setAutoresizingMask:(NSViewWidthSizable+NSViewMaxYMargin)];
+    //NSRect handleRect = NSZeroRect;
+//    NSImage *sidebarResizerImage = [MDSidebarBorderView bundledImageWithName:@"DrawerResizeHandle"];
+//    handleRect.size = [sidebarResizerImage size];
+//    handleRect.origin.y = 0;
+//	if (showSidebarOnLeft) {
+//		handleRect.origin.x = [self frame].size.width - handleRect.size.width;
+//	} else {
+//		handleRect.origin.x = 0;
+//	}
+//    NSImageView *imageView = [[MDResizer alloc] initWithFrame:handleRect];
+//    [imageView setImage: sidebarResizerImage];
+//    [imageView setAutoresizingMask:showSidebarOnLeft?NSViewMinXMargin:NSViewMaxXMargin];
+//    [self addSubview:imageView];
+//    [self setNeedsDisplay:YES];
+//	
+//    [self setAutoresizingMask:(NSViewWidthSizable+NSViewMaxYMargin)];
 	
     // Add self to superview
     [superview addSubview:self];
@@ -203,23 +203,27 @@ NSComparisonResult compareFrameOriginX(id viewA, id viewB, void *context) {
 	
 	float leftLoc = 0;
 	if (!showSidebarOnLeft) {
-		leftLoc = leftLoc + handleRect.size.width; // = 18 
+		leftLoc = leftLoc; //+ handleRect.size.width; // = 18 
 	}
 	
 	for (NSView *button in btns) {
 		NSRect buttonFrame = [button frame];
-		buttonFrame.origin.y = -4;
+		buttonFrame.origin.y = 0;
 		buttonFrame.origin.x = leftLoc;
-		leftLoc = leftLoc + (buttonFrame.size.width-1);
+		buttonFrame.size.width = 31;
+		buttonFrame.size.height = 23;
+		leftLoc = leftLoc + (buttonFrame.size.width);
 		
 		[button setAutoresizingMask:NSViewMaxXMargin];
 		[button removeFromSuperview];
 		[button setFrame:buttonFrame];
 		[self addSubview:button];
+		// TODO: Tweak look of info button
 	}
 	
+	
     [btns release];
-    [imageView release];
+    //[imageView release];
 }
 
 
